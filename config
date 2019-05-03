@@ -9,8 +9,8 @@
 #   $$$$$$/   $$$$$$/   $$$$$$$/ $$$$$$$/     $$$$/  $$/  $$$$$$$/ $$/   $$/ 
 #                                                                            
 #                                                                            
-#  Work v1.9
-#  Date 2019-04-26
+#  Work v1.92
+#  Date 2019-04-30
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 set $mod Mod4
@@ -44,36 +44,34 @@ bindsym $mod+Shift+q kill
 # Use rofi, not dmenu
 bindsym $mod+d exec --no-startup-id "rofi -modi run,drun -show drun -config ~/.config/i3/rofi";
 
+######################## PERSONAL CONFIGURATION ###
+
 # Apps Launched with <Ctrl> + <KEYPAD 1-9>
 bindsym control+1 exec $myTerm -e '~/bin/lock.sh'
 bindsym control+2 exec $myTerm -e 'gotop -m'
 bindsym control+3 exec $myTerm -e 'ranger'
 bindsym control+4 exec rxvt  
-bindsym control+5 exec $myTerm -e 'fish'
+bindsym control+5 exec $myTerm -e 'vi /home/joestick/Documents/todo.txt'
 bindsym control+6 exec $myTerm -e 'plank'
 bindsym control+7 exec $myTerm -e 'ssh -i ~/.ssh/MyAmazonAWS.pem ubuntu@ec2-63-34-224-254.eu-west-1.compute.amazonaws.com'
 bindsym control+8 exec $myTerm -e 'txtreader'
 bindsym control+9 exec $myTerm -e 'vim /home/joestick/.config/i3/config'
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# The middle button and a modifer over any part of the window kills the window
+bindsym --whole-window $mod+button2 kill
 
-# alternatively, you can use the cursor keys:
+# The right button toggles floating
+bindsym $mod+button3 floating toggle
+
+###################################################
+
+# change focus
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -180,12 +178,30 @@ exec_always --no-startup-id "feh --randomize --bg-fill ~/Wallpaper/*"
 bar {
        position top                                                                             
        status_command ~/bumblebee-status/bumblebee-status -m hostname title load uptime todo date time -t gruvbox-powerline
+  colors {
+    separator #515151
+    background #2d2d2d
+    statusline #cccccc
+    focused_workspace #99cc99 #99cc99 #000000 #282828
+    active_workspace #333333 #333333 #ffffff #928374
+    inactive_workspace #2d2d2d #2d2d2d #999999 #928374
+    urgent_workspace #f2777a #f2777a #ffffff #ebdbb2
+  }
 }
 
 
 bar {
 	position bottom 
 	status_command ~/bumblebee-status/bumblebee-status -m cpu disk memory battery -t gruvbox-powerline 
+  colors {
+    separator #515151
+    background #2d2d2d
+    statusline #cccccc
+    focused_workspace #99cc99 #99cc99 #000000 #282828
+    active_workspace #333333 #333333 #ffffff #928374
+    inactive_workspace #2d2d2d #2d2d2d #999999 #928374
+    urgent_workspace #f2777a #f2777a #ffffff #ebdbb2
+  }
 }
 
 # Assign Application
@@ -194,8 +210,8 @@ assign [class=".*(F|f)irefox.*"] $workspace1
 ### i3-gaps stuff ###
 
 # Necessary for i3-gaps to work properly (pixel can be any value)
-for_window [class="^.*"] border none
-for_window [class=".*(F|f)irefox.*"] border normal 0
+for_window [class="^.*"] border pixel 1 
+for_window [class=".*(F|f)irefox.*"] border none 
 for_window [class=".*(R|r)xvt.*"] border pixel 3
 
 bindsym $mod+t border normal 0
@@ -269,5 +285,11 @@ mode "$mode_system" {
 
 bindsym $mod+Pause mode "$mode_system"
 
+# Personal Startup
 exec --no-startup-id i3-msg 'workspace 1: ; exec firefox-esr'
 exec --no-startup-id i3-msg 'workspace 2: ; exec $myTerm; exec $myTerm'
+
+client.focused #99cc99 #99cc99 #000000 #2d2d2d
+client.focused_inactive #393939 #393939 #888888 #292d2e
+client.unfocused #2d2d2d #2d2d2d #999999 #292d2e
+client.urgent #2f343a #900000 #ffffff #900000
