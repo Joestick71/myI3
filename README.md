@@ -1,2 +1,5 @@
 # myI3
-my i3 configuration
+i3 configuration 
+	+ .xinitrc
+	+ .Xresources
+	+ .xsession
